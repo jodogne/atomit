@@ -1,0 +1,6 @@
+https://github.com/kokke/tiny-AES-c
+
+license = public domain
+
+
+https://en.wikipedia.org/wiki/AES_implementations#C.2FASM_library

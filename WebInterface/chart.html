@@ -1,0 +1,56 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Atom-IT server</title>
+    <meta name="description" content="Atom-IT server">
+    <meta name="author" content="WSL">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.0.0/dygraph.min.css" />
+    
+    <!--[if lt IE 9]>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+        <![endif]-->
+  </head>
+
+  <body>
+    <h1>Plot of time series: <span id="series"></span></h1>
+
+    <p>
+      <a href="explorer.html">Back to the list of time series</a>
+    </p>
+
+    <p>
+      <a id="raw">Open the raw content of this time series</a>
+    </p>
+
+    <p>
+      &nbsp;
+    </p>
+
+    <div id="content" style="width:100%"></div>
+
+    <p>The chart is interactive:</p>
+
+    <ul>
+      <li>
+        You can mouse over to highlight individual values.
+      </li>
+      <li>
+        You can click and drag to zoom.
+      </li>
+      <li>
+        Double-clicking will zoom you back out.
+      </li>
+      <li>
+        Shift-drag will pan.
+      </li>
+    </p>
+           
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.0.0/dygraph.min.js"></script>
+    <script src="chart.js"></script>
+  </body>
+</html>
