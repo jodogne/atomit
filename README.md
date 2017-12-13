@@ -37,6 +37,15 @@ The server also features a simple Web interface in order to explore
 the content of its database. 
 
 
+Documentation
+-------------
+
+Documentation is work-in-progress, and will be available in the
+following days.
+
+ * [Basic concepts](Documentation/Concepts.md)
+
+
 Sample
 ------
 
@@ -89,13 +98,6 @@ end
 ```
 
 More samples will come in the following days.
-
-
-Documentation
--------------
-
-Documentation is work-in-progress, and will be available in the
-following days.
 
 
 Compilation
