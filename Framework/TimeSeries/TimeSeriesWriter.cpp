@@ -166,8 +166,16 @@ namespace AtomIT
         timestamp = message.GetTimestamp();
         break;
 
-      case TimestampType_Clock:
-        timestamp = Toolbox::GetClockTimestamp();
+      case TimestampType_NanosecondsClock:
+        timestamp = Toolbox::GetNanosecondsClockTimestamp();
+        break;
+
+      case TimestampType_MillisecondsClock:
+        timestamp = Toolbox::GetMillisecondsClockTimestamp();
+        break;
+
+      case TimestampType_SecondsClock:
+        timestamp = Toolbox::GetSecondsClockTimestamp();
         break;
 
       case TimestampType_Sequence:

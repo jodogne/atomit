@@ -39,7 +39,11 @@ namespace AtomIT
 {
   namespace Toolbox
   {
-    int64_t GetClockTimestamp();
+    int64_t GetNanosecondsClockTimestamp();
+
+    int64_t GetMillisecondsClockTimestamp();
+
+    int64_t GetSecondsClockTimestamp();
 
     bool XmlToJson(Json::Value& json,
                    const std::string& xml,

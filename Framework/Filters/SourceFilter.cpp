@@ -83,7 +83,9 @@ namespace AtomIT
   void SourceFilter::SetDefaultTimestampType(TimestampType type)
   {
     if (type != TimestampType_Default &&
-        type != TimestampType_Clock &&
+        type != TimestampType_NanosecondsClock &&
+        type != TimestampType_MillisecondsClock &&
+        type != TimestampType_SecondsClock &&
         type != TimestampType_Sequence)
     {
       throw Orthanc::OrthancException(Orthanc::ErrorCode_ParameterOutOfRange);

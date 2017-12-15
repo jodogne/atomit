@@ -37,7 +37,9 @@ namespace AtomIT
   {
     TimestampType_Default,
     TimestampType_Sequence,
-    TimestampType_Clock,
+    TimestampType_NanosecondsClock,
+    TimestampType_MillisecondsClock,
+    TimestampType_SecondsClock,
     TimestampType_Fixed
   };
 }

@@ -41,14 +41,27 @@ namespace AtomIT
 {
   namespace Toolbox
   {
-    int64_t GetClockTimestamp()
+    static const boost::posix_time::ptime EPOCH(boost::gregorian::date(1970, 1, 1)); 
+
+    
+    int64_t GetNanosecondsClockTimestamp()
     {
-      using namespace boost::posix_time;
+      boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
+      return (now - EPOCH).total_nanoseconds();
+    }
+    
 
-      static const ptime epoch(boost::gregorian::date(1970, 1, 1)); 
+    int64_t GetMillisecondsClockTimestamp()
+    {
+      boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
+      return (now - EPOCH).total_milliseconds();
+    }
+    
 
-      ptime now = microsec_clock::universal_time();
-      return (now - epoch).total_nanoseconds();
+    int64_t GetSecondsClockTimestamp()
+    {
+      boost::posix_time::ptime now = boost::posix_time::microsec_clock::universal_time();
+      return (now - EPOCH).total_seconds();
     }
 
 

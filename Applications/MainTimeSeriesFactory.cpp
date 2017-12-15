@@ -148,8 +148,16 @@ namespace AtomIT
         s += "sequential timestamps";
         break;
             
-      case TimestampType_Clock:
-        s += "clock timestamps";
+      case TimestampType_NanosecondsClock:
+        s += "clock timestamps (ns)";
+        break;
+
+      case TimestampType_MillisecondsClock:
+        s += "clock timestamps (ms)";
+        break;
+
+      case TimestampType_SecondsClock:
+        s += "clock timestamps (s)";
         break;
 
       default:
@@ -231,9 +239,17 @@ namespace AtomIT
       {
         config.timestampType_ = TimestampType_Sequence;
       }
-      else if (s == "Clock")
+      else if (s == "NanosecondsClock")
       {
-        config.timestampType_ = TimestampType_Clock;
+        config.timestampType_ = TimestampType_NanosecondsClock;
+      }
+      else if (s == "MillisecondsClock")
+      {
+        config.timestampType_ = TimestampType_MillisecondsClock;
+      }
+      else if (s == "SecondsClock")
+      {
+        config.timestampType_ = TimestampType_SecondsClock;
       }
       else
       {
@@ -408,6 +424,10 @@ namespace AtomIT
     if (config.HasItem(AUTO))
     {
       ConfigurationSection section(config, AUTO);
+
+      LOG(INFO) << "Configuring auto-creation of time series with parameters: "
+                << section.Format();
+      
       SetAutoConfiguration(TimeSeriesConfiguration::Parse(section, *this));
     }
 
@@ -421,7 +441,11 @@ namespace AtomIT
       for (std::set<std::string>::const_iterator
              name = names.begin(); name != names.end(); ++name)
       {
-        ConfigurationSection section(config, *name);
+        ConfigurationSection section(manual, *name);
+
+        LOG(INFO) << "Creating time series \"" << *name << "\" with parameters: "
+                  << section.Format();
+      
         RegisterTimeSeries(*name, TimeSeriesConfiguration::Parse(section, *this));
       }
     }
