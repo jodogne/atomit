@@ -49,7 +49,8 @@ available in the following days.
  * [Configuration](Documentation/Configuration.md)
  * [Available filters](Documentation/Filters.md)
  * [REST API](Documentation/RestApi.md)
- * [Samples](Documentation/Samples.md)
+ * Samples of IoT workflow:
+   * [Connecting to The Things Network](Documentation/SampleTheThingsNetwork.md)
 
 
 Licensing
