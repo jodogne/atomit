@@ -69,6 +69,98 @@ namespace AtomIT
   }
 
 
+  static bool StartHttpServer(ServerContext& context)
+  {
+    AtomITRestApi api(context);
+
+#if ATOMIT_STANDALONE == 1
+    Orthanc::EmbeddedResourceHttpHandler staticResources
+      ("/app", Orthanc::EmbeddedResources::ATOMIT_WEB_INTERFACE);
+#else
+    Orthanc::FilesystemHttpHandler staticResources
+      ("/app", ATOMIT_ROOT "/WebInterface");
+#endif
+
+    Orthanc::OrthancHttpHandler handler;
+    handler.Register(api, true);
+    handler.Register(staticResources, false);
+      
+    Orthanc::MongooseServer httpServer;
+    httpServer.Register(handler);
+
+    bool b;
+
+    if (globalConfiguration_.GetBooleanParameter(b, "RemoteAccessAllowed"))
+    {
+      httpServer.SetRemoteAccessAllowed(b);
+    }
+    else
+    {
+      httpServer.SetRemoteAccessAllowed(false);
+    }
+
+    if (globalConfiguration_.GetBooleanParameter(b, "AuthenticationEnabled"))
+    {
+      httpServer.SetAuthenticationEnabled(b);
+    }
+    else
+    {
+      httpServer.SetAuthenticationEnabled(false);
+    }
+
+    unsigned int v;
+    if (globalConfiguration_.GetUnsignedIntegerParameter(v, "HttpPort"))
+    {
+      if (v <= 65535)
+      {
+        httpServer.SetPortNumber(v);
+      }
+      else
+      {
+        LOG(ERROR) << "Bad value for a TCP port: " << v;
+        throw Orthanc::OrthancException(Orthanc::ErrorCode_ParameterOutOfRange);
+      }
+    }
+    else
+    {
+      httpServer.SetPortNumber(8042);
+    }
+
+    static const char* USERS = "RegisteredUsers";
+    if (globalConfiguration_.HasItem(USERS))
+    {
+      ConfigurationSection section(globalConfiguration_, USERS);
+
+      std::set<std::string> users;
+      section.ListMembers(users);
+
+      for (std::set<std::string>::const_iterator
+             username = users.begin(); username != users.end(); ++username)
+      {
+        std::string password = section.GetMandatoryStringParameter(*username);
+        httpServer.RegisterUser(username->c_str(), password.c_str());
+      }
+    }
+
+    if (httpServer.GetPortNumber() < 1024)
+    {
+      LOG(WARNING) << "The HTTP port is privileged (" 
+                   << httpServer.GetPortNumber() << " is below 1024), "
+                   << "make sure you run Atom-IT as root/administrator";
+    }
+      
+    httpServer.Start();
+    LOG(WARNING) << "HTTP server listening on port: " << httpServer.GetPortNumber();
+        
+    Orthanc::SystemToolbox::ServerBarrier();
+
+    httpServer.Stop();
+    LOG(WARNING) << "    HTTP server has stopped";
+
+    return false;                                                    
+  }
+
+
   // Returns "true" if the server must restart
   bool StartServer(int argc,
                    char* argv[],
@@ -102,88 +194,31 @@ namespace AtomIT
     }
 
     context.Start();
+    LOG(WARNING) << "The Atom-IT server has started";
 
+    bool httpServerEnabled;
+    if (!globalConfiguration_.GetBooleanParameter(httpServerEnabled, "HttpServerEnabled"))
     {
-      AtomITRestApi api(context);
-
-#if ATOMIT_STANDALONE == 1
-      Orthanc::EmbeddedResourceHttpHandler staticResources
-        ("/app", Orthanc::EmbeddedResources::ATOMIT_WEB_INTERFACE);
-#else
-      Orthanc::FilesystemHttpHandler staticResources
-        ("/app", ATOMIT_ROOT "/WebInterface");
-#endif
-
-      Orthanc::OrthancHttpHandler handler;
-      handler.Register(api, true);
-      handler.Register(staticResources, false);
-      
-      Orthanc::MongooseServer httpServer;
-      httpServer.Register(handler);
-
-      bool b;
-      if (globalConfiguration_.GetBooleanParameter(b, "AuthenticationEnabled"))
-      {
-        httpServer.SetAuthenticationEnabled(b);
-      }
-      else
-      {
-        httpServer.SetAuthenticationEnabled(false);
-      }
-
-      unsigned int v;
-      if (globalConfiguration_.GetUnsignedIntegerParameter(v, "HttpPort"))
-      {
-        if (v <= 65535)
-        {
-          httpServer.SetPortNumber(v);
-        }
-        else
-        {
-          LOG(ERROR) << "Bad value for a TCP port: " << v;
-          throw Orthanc::OrthancException(Orthanc::ErrorCode_ParameterOutOfRange);
-        }
-      }
-      else
-      {
-        httpServer.SetPortNumber(8042);
-      }
-
-      static const char* USERS = "RegisteredUsers";
-      if (globalConfiguration_.HasItem(USERS))
-      {
-        ConfigurationSection section(globalConfiguration_, USERS);
-
-        std::set<std::string> users;
-        section.ListMembers(users);
-
-        for (std::set<std::string>::const_iterator
-               username = users.begin(); username != users.end(); ++username)
-        {
-          std::string password = section.GetMandatoryStringParameter(*username);
-          httpServer.RegisterUser(username->c_str(), password.c_str());
-        }
-      }
-
-      if (httpServer.GetPortNumber() < 1024)
-      {
-        LOG(WARNING) << "The HTTP port is privileged (" 
-                     << httpServer.GetPortNumber() << " is below 1024), "
-                     << "make sure you run Atom-IT as root/administrator";
-      }
-      
-      httpServer.Start();
-      LOG(WARNING) << "HTTP server listening on port: " << httpServer.GetPortNumber();
-        
-      Orthanc::SystemToolbox::ServerBarrier();
-
-      httpServer.Stop();
-      LOG(WARNING) << "    HTTP server has stopped";
+      httpServerEnabled = true;  // Start the HTTP server by default
     }
 
+    bool restart;
+
+    if (httpServerEnabled)
+    {
+      restart = StartHttpServer(context);
+    }
+    else
+    {
+      LOG(WARNING) << "The HTTP server is disabled";
+      Orthanc::SystemToolbox::ServerBarrier();
+      restart = false;
+    }
+
+    LOG(INFO) << "The Atom-IT server is stopping";
     context.Stop();
 
-    return false;  // Don't restart the server
+    return restart;  // Don't restart the server
   }
 
   void PrintHelp(const std::string& path)
@@ -405,8 +440,7 @@ int main(int argc, char* argv[])
   }
 
   AtomIT::GlobalFinalization();
-
-  LOG(WARNING) << "Atom-IT server has stopped";
+  LOG(WARNING) << "The Atom-IT server has stopped";
 
   Orthanc::HttpClient::GlobalFinalize();
   Orthanc::Logging::Finalize();

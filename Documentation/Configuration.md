@@ -15,8 +15,16 @@ Atom-IT can be started as follows:
 # ./AtomIT --verbose Configuration.json
 ```
 
-The `--verbose` provides debugging information, and can be safely
-removed in production environments. This section reviews the 3 parts
+The `--verbose` argument provides debugging information, and can be
+safely removed in production environments. You can find all the
+available command-line arguments of the Atom-IT server by adding the
+`--help` argument:
+
+```
+# ./AtomIT --help
+```
+
+This section reviews the 3 parts
 of the configuration file, namely:
 
  1. [Time series definition](#time-series-definition),
@@ -265,4 +273,23 @@ Several examples of more complex workflow are available at
 Web server parameters
 ---------------------
 
-WIP.
+The Atom-IT server comes bundled with an embedded Web server. This Web
+server is used to [serve the REST API](RestApi.md) and to provide a
+minimalistic Web interface to browse the content of the time series.
+
+By default, the embedded Web server is started and can be accessed on
+http://localhost:8042/, but only from the localhost. This default
+behavior can be fine-tuned with the following set of parameters in the
+JSON configuration file:
+
+```
+{
+  "HttpServerEnabled" : true,       // Disable the HTTP server
+  "HttpPort" : 8042,                // Set the HTTP port number
+  "RemoteAccessAllowed" : false,    // Allow access from other computers than localhost
+  "AuthenticationEnabled" : false,  // Enable HTTP Basic Authentication
+  "RegisteredUsers" : {             // List of the registered users with passwords
+    // "alice" : "alicePassword"
+  }
+}
+```

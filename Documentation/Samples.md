@@ -1,5 +1,5 @@
 Samples
--------
+=======
 
 Here is a sample configuration file illustrating how to create a
 simple IoT workflow collecting its data from The Things Network using
