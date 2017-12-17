@@ -12,7 +12,8 @@ most hardware architectures, from the Raspberry Pi to cloud systems.
 
 The software comes out-of-the-box with the following features:
 
- * Centralization of time series coming from different data sources.
+ * Centralization of time series coming from multiple data sources
+   and different network protocols.
  * Built-in Web server that can be used to receive messages from
    callbacks provided by professional IoT networks (such as Sigfox and
    Proximus MyThings).
