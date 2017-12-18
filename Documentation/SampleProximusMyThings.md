@@ -19,7 +19,7 @@ Configuring the Atom-IT server
 ------------------------------
 
 The first things is obviously to start an Atom-IT on a server with a
-public IP address (e.g. on a
+public IP address (e.g. running on a
 [VPS server](https://en.wikipedia.org/wiki/Virtual_private_server)).
 Let's consider the following [configuration file](Configuration.md):
 
@@ -41,7 +41,7 @@ originating from Proximus MyThings. It also enables an HTTP user with
 password to reject unauthorized accesses.
 
 Pay attention to put the Atom-IT server behind a
-[reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy) such as
+[reverse proxy](https://en.wikipedia.org/wiki/Reverse_proxy), such as
 Apache or nginx, in order to add HTTPS encryption. Ideally, for
 security reasons, your reverse proxy should also block all the HTTP
 requests that are not POST or that do not point to the
@@ -184,7 +184,7 @@ This configuration file will write the decoded messages into a second
 time series called `decoded`, that can be used by other filters or
 external applications. As a consequence, the content of the resulting
 time series (called `decoded`) is readily available using the
-[REST API](RestApi.md) of the Orthanc server:
+[REST API](RestApi.md) of the Atom-IT server:
 
 ```
 $ curl -u 'jodogne:helloworld' http://atomit.helloworld.com:8042/series/decoded/content

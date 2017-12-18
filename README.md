@@ -8,7 +8,9 @@ The Atom-IT server is a lightweight, cross-platform, RESTful
 
 The Atom-IT server provides a simple framework to define IoT workflows
 through configuration files. Its small footprint makes it usable on
-most hardware architectures, from the Raspberry Pi to cloud systems.
+most hardware architectures, from the Raspberry Pi to cloud
+systems. Its simplicity also makes it a valuable candidate to showcase
+IoT networks as a vendor-neutral pedagogical platform.
 
 The software comes out-of-the-box with the following features:
 
@@ -53,8 +55,9 @@ available in the following days.
  * [REST API](Documentation/RestApi.md)
  * [Lua scripting](Documentation/Lua.md)
  * Samples of IoT workflow:
-   * [Connecting to The Things Network](Documentation/SampleTheThingsNetwork.md)
    * [Connecting to Proximus MyThings](Documentation/SampleProximusMyThings.md)
+   * [Connecting to Sigfox](Documentation/SampleSigfox.md)
+   * [Connecting to The Things Network](Documentation/SampleTheThingsNetwork.md)
 
 
 Licensing
