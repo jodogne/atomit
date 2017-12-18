@@ -129,6 +129,11 @@ add_executable(UnitTests
 target_link_libraries(AtomIT AtomITFramework)
 target_link_libraries(UnitTests ${GOOGLE_TEST_LIBRARIES} AtomITFramework)
 
+install(
+  TARGETS AtomIT
+  RUNTIME DESTINATION sbin
+  )
+
 
 #####################################################################
 ## Generate the documentation if Doxygen is present
