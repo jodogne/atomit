@@ -29,9 +29,9 @@ The software comes out-of-the-box with the following features:
  * Decoding of LoRa packets.
  * HTTP POST client in order to transmit messages to other IoT
    systems.
- * Built-in REST API that can be used to drive the server from
-   external heavyweight software, from scripts, or from Web
-   applications.
+ * Built-in [REST API](Documentation/RestApi.md) that can be used to
+   drive the server from external heavyweight software, from scripts,
+   or from Web applications.
  * Export and import to/from files (notably in the
    [CSV file format](https://en.wikipedia.org/wiki/Comma-separated_values)).
  * Long-term storage of messages within [SQLite](https://www.sqlite.org/) databases.
@@ -51,8 +51,10 @@ available in the following days.
  * [Configuration](Documentation/Configuration.md)
  * [Available filters](Documentation/Filters.md)
  * [REST API](Documentation/RestApi.md)
+ * [Lua scripting](Documentation/Lua.md)
  * Samples of IoT workflow:
    * [Connecting to The Things Network](Documentation/SampleTheThingsNetwork.md)
+   * [Connecting to Proximus MyThings](Documentation/SampleProximusMyThings.md)
 
 
 Licensing
