@@ -155,6 +155,7 @@ namespace AtomIT
   }
 
 
+#if ATOMIT_ENABLE_IMST_GATEWAY == 1
   static IFilter* LoadIMSTSourceFilter(const std::string& name,
                                        ITimeSeriesManager& manager,
                                        const ConfigurationSection& config)
@@ -171,6 +172,7 @@ namespace AtomIT
 
     return filter.release();
   }
+#endif
 
 
   static IFilter* LoadCounterSourceFilter(const std::string& name,
@@ -350,10 +352,12 @@ namespace AtomIT
     {
       filter.reset(LoadFileLinesSourceFilter(name, manager, config));
     }
+#if ATOMIT_ENABLE_IMST_GATEWAY == 1
     else if (type == "IMST")
     {
       filter.reset(LoadIMSTSourceFilter(name, manager, config));
     }
+#endif
     else if (type == "MQTTSource")
     {
       filter.reset(LoadMQTTSourceFilter(name, manager, config));
