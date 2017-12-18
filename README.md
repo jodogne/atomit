@@ -1,10 +1,12 @@
-Atom-IT server
-==============
+![Atom-IT](Resources/AtomITLogoDocumentation.png "Atom-IT")
 
-The Atom-IT server is a lightweight, cross-platform, RESTful
+The **Atom-IT server** is a lightweight, cross-platform, RESTful
 [microservice](https://en.wikipedia.org/wiki/Microservices) for
 [Internet of Things](https://en.wikipedia.org/wiki/Internet_of_things)
 (IoT) applications.
+
+Features
+--------
 
 The Atom-IT server provides a simple framework to define IoT workflows
 through configuration files. Its small footprint makes it usable on
@@ -58,6 +60,11 @@ available in the following days.
    * [Connecting to Proximus MyThings](Documentation/SampleProximusMyThings.md)
    * [Connecting to Sigfox](Documentation/SampleSigfox.md)
    * [Connecting to The Things Network](Documentation/SampleTheThingsNetwork.md)
+   * [Standalone LoRa gateway](Documentation/SampleIMST.md)
+
+If you don't find an answer to some question in this documentation,
+please ask the
+[official discussion forum](https://groups.google.com/forum/#!forum/atomit-users)!
 
 
 Licensing

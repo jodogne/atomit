@@ -1,7 +1,7 @@
 FROM alpine:3.7
 
 MAINTAINER Sebastien Jodogne <s.jodogne@gmail.com>
-LABEL Description="Atom-IT server" Vendor="Sebastien Jodogne"
+LABEL Description="Atom-IT server" Vendor="Sebastien Jodogne, WSL S.A."
 
 ADD ./build.sh /root/build.sh
 
