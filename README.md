@@ -50,6 +50,7 @@ Documentation
 Documentation is work-in-progress, and will progressively be made
 available in the following days.
 
+ * [Quick Start](Documentation/QuickStart.md)
  * [Compilation](Documentation/Compilation.md)
  * [Basic concepts](Documentation/Concepts.md)
  * [Configuration](Documentation/Configuration.md)
