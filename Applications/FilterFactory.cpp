@@ -288,7 +288,7 @@ namespace AtomIT
     
     std::auto_ptr<MQTTSinkFilter> filter
       (new MQTTSinkFilter(name, manager,
-                          config.GetMandatoryStringParameter("Output")));
+                          config.GetMandatoryStringParameter("Input")));
 
     SetCommonAdapterParameters(*filter, config);
 

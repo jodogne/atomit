@@ -175,7 +175,27 @@ sample](SampleIMST.md) is also available.
 LoRaDecoder
 ------------
 
-WIP.
+This filter can be used to decode LoRa packets using ABP network keys.
+It takes the raw packets from the input time series (e.g. coming from
+an [IMST filter](#imst)), decodes them, and forward the decoded
+packets to another time series. Check out the [standalone LoRa
+gateway sample](SampleIMST.md) for an usage example.
+
+Note that metadata is automatically set to the hardware EUI identifier.
+
+**Mandatory parameters:**
+
+ * `nwkSKey`: The ABP network encryption key (check out your Arduino code).
+ * `appSKey`: The ABP application encryption key (check out your Arduino code).
+ * `Input`: The identifier of the input time series.
+ * `Output`: The identifier of the output time series.
+ * `Type`: String value that must be set to "`LoRaDecoder`".
+
+**Optional parameters:**
+
+ * [`Name`](#common-parameters).
+ * [`ReplayHistory`](#common-parameters).
+ * [`PopInput`](#common-parameters).
 
 
 Lua
@@ -187,7 +207,7 @@ Check out the page dedicated to [Lua scripting](Lua.md).
 
  * `Input`: The identifier of the input time series.
  * `Path`: Path to the Lua script to be executed for each incoming message.
- * `Type`: String value that must be set to "`HttpPost`".
+ * `Type`: String value that must be set to "`Lua`".
 
 **Optional parameters:**
 
@@ -202,13 +222,60 @@ Check out the page dedicated to [Lua scripting](Lua.md).
 MQTTSink
 --------
 
-WIP.
+This sink filter receives the content of a time series, and publishes
+each of its messages to a [MQTT message
+broker](https://en.wikipedia.org/wiki/MQTT). The metadata of the
+message specifies the MQTT topic of the message.
+
+**Mandatory parameters:**
+
+ * `Input`: The identifier of the input time series.
+ * `Type`: String value that must be set to "`MQTTSink`".
+
+**Optional parameters:**
+
+ * `Broker`: Structure defining the parameters of the MQTT broker (see below).
+ * `ClientID`: String value identifying the MQTT client.
+ * [`Name`](#common-parameters).
+ * [`PopInput`](#common-parameters).
+ * [`ReplayHistory`](#common-parameters).
+
+**Broker parameters:** By default, the Atom-IT server uses a MQTT
+broker running on `localhost` on TCP port `1883`. Here is the format
+to specify other network parameters:
+
+```
+{
+  "Server" : "eu.thethings.network",
+  "Username" : "jodogne",
+  "Password" : "ttn-account-v2.XXX",
+  "Port" : 1883
+}
+```
 
 
 MQTTSource
 ----------
 
-WIP.
+This source filter subscribes to a [MQTT message
+broker](https://en.wikipedia.org/wiki/MQTT), listens to a set of
+topics, and publishes the received events to a time series. The
+metadata is set to the topic associated to the event.
+
+**Mandatory parameters:**
+
+ * `Output`: The identifier of the output time series.
+ * `Type`: String value that must be set to "`MQTTSource`".
+
+**Optional parameters:**
+
+ * `Broker`: Structure defining the parameters of the MQTT broker (see
+   [MQTTSink](#mqttsink)).
+ * `ClientID`: String value identifying the MQTT client.
+ * [`Name`](#common-parameters).
+ * `Topics`: List of strings (possibly with `+` wildcards) specifying
+   the topics to listen to. Check out [The Things Network
+   sample](SampleTheThingsNetwork.md) for an example.
 
 
 Common parameters
