@@ -38,6 +38,34 @@ Publishes one message to the time series whose identifier is
    policy](Configuration.md#timestamps-policy) of the target time series.
 
 
+## `DELETE /series/{name}/content`
+
+TODO.
+
+
 ## `GET /series/{name}/content`
 
 Returns the content of the time series whose identifier is `name`.
+
+TODO.
+
+
+## `DELETE /series/{name}/content/{timestamp}`
+
+TODO.
+
+
+## `GET /series/{name}/content/{timestamp}`
+
+TODO.
+
+
+## `PUT /series/{name}/content/{timestamp}`
+
+TODO.
+
+
+## `GET /series/{name}/statistics`
+
+TODO.
+
