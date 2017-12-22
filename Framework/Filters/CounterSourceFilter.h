@@ -41,8 +41,9 @@ namespace AtomIT
   {
   private:
     std::string  metadata_;
-    uint64_t     count_;
-    uint64_t     end_;
+    int64_t      counter_;
+    int64_t      stop_;
+    unsigned int increment_;
 
     boost::posix_time::time_duration  delay_;
 
@@ -52,10 +53,7 @@ namespace AtomIT
   public:
     CounterSourceFilter(const std::string& name,
                         ITimeSeriesManager& manager,
-                        const std::string& timeSeries,
-                        uint64_t startCounter,
-                        uint64_t endCounter,
-                        unsigned int delay);
+                        const std::string& timeSeries);
 
     void SetMetadata(const std::string& metadata)
     {
@@ -66,5 +64,12 @@ namespace AtomIT
     {
       return metadata_;
     }
+
+    void SetRange(int64_t start, 
+                  int64_t stop);
+
+    void SetIncrement(unsigned int increment);
+
+    void SetDelay(unsigned int milliseconds);
   };
 }

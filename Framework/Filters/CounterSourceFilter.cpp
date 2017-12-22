@@ -31,13 +31,15 @@
 
 #include "CounterSourceFilter.h"
 
+#include <Core/OrthancException.h>
+
 #include <boost/thread.hpp>
 
 namespace AtomIT
 {
   SourceFilter::FetchStatus CounterSourceFilter::Fetch(Message& message)
   {
-    if (count_ >= end_)
+    if (counter_ >= stop_)
     {
       return FetchStatus_Done;
     }
@@ -45,8 +47,8 @@ namespace AtomIT
     {
       boost::this_thread::sleep(delay_);
       message.SetMetadata(metadata_);
-      message.SetValue(boost::lexical_cast<std::string>(count_));
-      count_ += 1;
+      message.SetValue(boost::lexical_cast<std::string>(counter_));
+      counter_ += static_cast<int64_t>(increment_);
       return FetchStatus_Success;
     }
   }
@@ -54,15 +56,46 @@ namespace AtomIT
 
   CounterSourceFilter::CounterSourceFilter(const std::string& name,
                                            ITimeSeriesManager& manager,
-                                           const std::string& timeSeries,
-                                           uint64_t startCounter,
-                                           uint64_t endCounter,
-                                           unsigned int delay) :
+                                           const std::string& timeSeries) :
     SourceFilter(name, manager, timeSeries),
     metadata_("text/plain"),
-    count_(startCounter),
-    end_(endCounter),
-    delay_(boost::posix_time::milliseconds(delay))
+    counter_(0),
+    stop_(100),
+    delay_(boost::posix_time::milliseconds(100))
   {
+  }
+
+
+  void CounterSourceFilter::SetRange(int64_t start, 
+                                     int64_t stop)
+  {
+    if (start > stop)
+    {
+      throw Orthanc::OrthancException(Orthanc::ErrorCode_ParameterOutOfRange);
+    }
+    else
+    {
+      counter_ = start;
+      stop_ = stop;
+    }
+  }
+
+
+  void CounterSourceFilter::SetIncrement(unsigned int increment)
+  {
+    if (increment == 0)
+    {
+      throw Orthanc::OrthancException(Orthanc::ErrorCode_ParameterOutOfRange);
+    }
+    else
+    {
+      increment_ = increment;
+    }
+  }
+
+
+  void CounterSourceFilter::SetDelay(unsigned int milliseconds)
+  {
+    delay_ = boost::posix_time::milliseconds(milliseconds);
   }
 }

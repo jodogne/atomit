@@ -35,7 +35,6 @@
 #include "../Framework/Filters/CSVFileSourceFilter.h"
 #include "../Framework/Filters/CounterSourceFilter.h"
 #include "../Framework/Filters/FileLinesSourceFilter.h"
-#include "../Framework/Filters/FileReaderFilter.h"
 #include "../Framework/Filters/HttpPostSinkFilter.h"
 #include "../Framework/Filters/IMSTSourceFilter.h"
 #include "../Framework/Filters/LoRaPacketFilter.h"
@@ -57,10 +56,18 @@ namespace AtomIT
     {
       filter.SetReplayHistory(b);
     }
+    else
+    {
+      filter.SetReplayHistory(false);
+    }
 
     if (config.GetBooleanParameter(b, "PopInput"))
     {
       filter.SetPopInput(b);
+    }
+    else
+    {
+      filter.SetPopInput(false);
     }
   }
   
@@ -116,14 +123,31 @@ namespace AtomIT
     SetCommonFileSinkParameters(*filter, config);
 
     bool b;
+    if (config.GetBooleanParameter(b, "Append"))
+    {
+      filter->SetAppend(b);
+    }
+    else
+    {
+      filter->SetAppend(true);
+    }
+
     if (config.GetBooleanParameter(b, "Header"))
     {
       filter->SetHeaderAdded(b);
+    }
+    else
+    {
+      filter->SetHeaderAdded(false);
     }
 
     if (config.GetBooleanParameter(b, "Base64"))
     {
       filter->SetBase64Encoded(b);
+    }
+    else
+    {
+      filter->SetBase64Encoded(true);
     }
 
     return filter.release();
@@ -179,17 +203,44 @@ namespace AtomIT
                                           ITimeSeriesManager& manager,
                                           const ConfigurationSection& config)
   {
-    unsigned int start = 0;
-    unsigned int end = 100;
-    unsigned int delay = 100;
+    int start, stop;
+    unsigned int delay, increment;
 
-    config.GetUnsignedIntegerParameter(start, "Start");
-    config.GetUnsignedIntegerParameter(end, "Start");
-    config.GetUnsignedIntegerParameter(delay, "Start");
+    if (!config.GetIntegerParameter(start, "Start"))
+    {
+      start = 0;
+    }
 
-    return new CounterSourceFilter(name, manager,
-                                   config.GetMandatoryStringParameter("Output"),
-                                   start, end, delay);
+    if (!config.GetIntegerParameter(stop, "Stop"))
+    {
+      stop = 100;
+    }
+
+    if (!config.GetUnsignedIntegerParameter(increment, "Increment"))
+    {
+      increment = 1;
+    }
+
+    if (!config.GetUnsignedIntegerParameter(delay, "Delay"))
+    {
+      delay = 100;
+    }
+
+    std::auto_ptr<CounterSourceFilter> filter
+      (new CounterSourceFilter(name, manager,
+                               config.GetMandatoryStringParameter("Output")));
+
+    std::string s;
+    if (config.GetStringParameter(s, "Metadata"))
+    {
+      filter->SetMetadata(s);
+    }
+
+    filter->SetRange(start, stop);
+    filter->SetIncrement(increment);
+    filter->SetDelay(delay);
+
+    return filter.release();
   }
 
 
@@ -238,6 +289,8 @@ namespace AtomIT
     std::auto_ptr<MQTTSinkFilter> filter
       (new MQTTSinkFilter(name, manager,
                           config.GetMandatoryStringParameter("Output")));
+
+    SetCommonAdapterParameters(*filter, config);
 
     if (config.HasItem(BROKER))
     {
@@ -302,10 +355,16 @@ namespace AtomIT
                               config.GetMandatoryStringParameter("Input"),
                               config.GetMandatoryStringParameter("Url")));
 
+    SetCommonAdapterParameters(*filter, config);
+
     unsigned int v;
     if (config.GetUnsignedIntegerParameter(v, "Timeout"))
     {
       filter->SetTimeout(v);
+    }
+    else
+    {
+      filter->SetTimeout(10);
     }
 
     std::string username, password;
