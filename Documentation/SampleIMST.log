@@ -1,0 +1,46 @@
+W1222 15:41:42.358151 main.cpp:385] Atom-IT version: mainline (20171222T142446)
+W1222 15:41:42.359014 ConfigurationSection.cpp:146] Loading configuration from: "./Configuration.json"
+I1222 15:41:42.360475 MainTimeSeriesFactory.cpp:428] Configuring auto-creation of time series with parameters: {}
+W1222 15:41:42.367092 MainTimeSeriesFactory.cpp:289] Enabling auto-creation of time series: Memory backend with unlimited length, unlimited size, and sequential timestamps
+I1222 15:41:42.367363 FilterFactory.cpp:385] Creating filter with parameters: {
+   "Output" : "lora",
+   "Type" : "IMST"
+}
+W1222 15:41:42.367686 GenericTimeSeriesManager.cpp:307] Auto-creation of time series: lora
+I1222 15:41:42.367855 GenericTimeSeriesManager.cpp:80] Time series created: lora
+I1222 15:41:42.374872 ServerContext.cpp:187] Adding filter (no name)
+I1222 15:41:42.375234 FilterFactory.cpp:385] Creating filter with parameters: {
+   "Input" : "lora",
+   "Path" : "lora.csv",
+   "Type" : "CSVSink"
+}
+I1222 15:41:42.375916 ServerContext.cpp:187] Adding filter (no name)
+W1222 15:41:42.376173 ServerContext.cpp:207] Starting the filters
+W1222 15:41:45.270840 IMSTSourceFilter.cpp:279] IMST LoRa concentrator started, packets can now be received
+I1222 15:41:45.271177 ServerContext.cpp:44] Filter (no name) has started
+I1222 15:41:45.271502 FileWritersPool.cpp:113] Opening file: "lora.csv"
+I1222 15:41:45.272700 ServerContext.cpp:44] Filter (no name) has started
+W1222 15:41:45.273626 main.cpp:197] The Atom-IT server has started
+I1222 15:41:45.277206 MongooseServer.cpp:948] Starting embedded Web server using Mongoose
+W1222 15:41:45.294881 main.cpp:153] HTTP server listening on port: 8042
+I1222 15:41:46.876706 IMSTSourceFilter.cpp:321] Received one packet from IMST LoRa concentrator
+I1222 15:41:46.876995 SourceFilter.cpp:110] Message received by filter (no name): "(binary)" (metadata "application/octet-stream")
+^CW1222 15:41:58.511872 main.cpp:158]     HTTP server has stopped
+I1222 15:41:58.512194 main.cpp:218] The Atom-IT server is stopping
+W1222 15:41:58.512533 ServerContext.cpp:117] Stopping the filters
+W1222 15:41:58.895522 IMSTSourceFilter.cpp:369] IMST LoRa concentrator stopped successfully
+I1222 15:41:58.895834 ServerContext.cpp:65] Filter (no name) has stopped
+I1222 15:41:58.896131 FileWritersPool.cpp:146] Closing file: "lora.csv"
+I1222 15:41:58.896837 ServerContext.cpp:65] Filter (no name) has stopped
+I1222 15:41:58.897220 GenericTimeSeriesManager.cpp:87] Time series deleted: lora
+W1222 15:41:58.897508 main.cpp:443] The Atom-IT server has stopped
+
+
+
+
+$ cat lora.csv
+"lora",0,application/octet-stream,"QWWyFXdbeILfC0aNRZh0TqImSJfS8pyf1kk0CCQkOPQdKKGgdSAwqS9qfpMdGVyIMMBa7keZyWmNwXxflCp3H8kyXbwzPogeJPmUXHEbIax98g6ykypz2D/Ly1CnENDusDDYaoxxR3NgcjYODSjRFYjn855dChBxzHUcNHZlf++z732tLz2sFEaiPph5GiXyBK9iRQ=="
+"lora",1,application/octet-stream,"wGWP5c7N/O4bVz4cuDhx4jl9vsI/rlbmkTGsSCTNYYNJiZs3xHZ2oa+Dpy5Wcjj4qkjnFLJ2BR/KuS/YoivJLrYlkHZYEMNNlGVUFRgtSBosLGWHa7f4QAfZW5/B/yuMoQ=="
+"lora",2,application/octet-stream,"rAtTc2frYvKPMy81vf5qMtqFmLvpiWo9RpMN7gN1FvTfqgUxNKjHmgW1P3AxLHtuQxg="
+"lora",3,application/octet-stream,"pHl/GX1Gs4jPX5szhXKSsLndIqWtLHWOAfspmwXnAXM6MDqjFZMhEpfWYwr/o4n0XmzIrejJtuGwbQe86PClt03FWNLvokyPRIwkwZ1HEd9TsbIIoCqH4CmkRW6o/ToY4PEb9YemnLVJ3aGa8H3fmUnE/gzq96rcpNEGT4StMeQd/PgSfhUdQWeZk776yA0mqu/zlgk="
+"lora",4,application/octet-stream,"K6Ba6TTEjg=="

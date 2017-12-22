@@ -168,7 +168,7 @@ sample](SampleIMST.md) is also available.
 
 **Optional parameters:**
 
- * [`Metadata`](#common-parameters).
+ * [`Metadata`](#common-parameters). Defaults to `application/octet-stream`.
  * [`Name`](#common-parameters).
 
 
