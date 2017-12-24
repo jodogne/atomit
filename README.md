@@ -47,9 +47,6 @@ the content of its database.
 Documentation
 -------------
 
-Documentation is work-in-progress, and will progressively be made
-available in the following days.
-
  * [Quick Start](Documentation/QuickStart.md)
  * Usage:
    * [Compilation](Documentation/Compilation.md)
