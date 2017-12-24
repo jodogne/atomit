@@ -244,7 +244,7 @@ message specifies the MQTT topic of the message.
 broker running on `localhost` on TCP port `1883`. Here is the format
 to specify other network parameters:
 
-```
+```javascript
 {
   "Server" : "eu.thethings.network",
   "Username" : "jodogne",

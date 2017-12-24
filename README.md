@@ -51,12 +51,13 @@ Documentation is work-in-progress, and will progressively be made
 available in the following days.
 
  * [Quick Start](Documentation/QuickStart.md)
- * [Compilation](Documentation/Compilation.md)
- * [Basic concepts](Documentation/Concepts.md)
- * [Configuration](Documentation/Configuration.md)
- * [Available filters](Documentation/Filters.md)
- * [REST API](Documentation/RestApi.md)
- * [Lua scripting](Documentation/Lua.md)
+ * Usage:
+   * [Compilation](Documentation/Compilation.md)
+   * [Basic concepts](Documentation/Concepts.md)
+   * [Configuration](Documentation/Configuration.md)
+   * [Available filters](Documentation/Filters.md)
+     * [Lua scripting](Documentation/Lua.md)
+   * [REST API](Documentation/RestApi.md)
  * Samples of IoT workflow:
    * [Connecting to Proximus MyThings](Documentation/SampleProximusMyThings.md)
    * [Connecting to Sigfox](Documentation/SampleSigfox.md)

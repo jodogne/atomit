@@ -14,7 +14,7 @@ Ubuntu 16.04 LTS
 The following build instruction is known to work properly on Ubuntu
 16.04:
 
-```
+```bash
 $ mkdir Build && cd Build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release \
   -DALLOW_DOWNLOADS=ON \
@@ -32,7 +32,7 @@ Static linking against all third-party dependencies is also available
 in order to provide maximum portability, notably for Microsoft Windows
 and Apple OS X:
 
-```
+```bash
 $ mkdir Build && cd Build
 $ cmake .. -DCMAKE_BUILD_TYPE=Release -DSTATIC_BUILD=ON
 $ make
@@ -48,7 +48,7 @@ Docker
 
 Here is the command to start the Atom-IT server using Docker:
 
-```
+```bash
 $ sudo docker pull jodogne/atomit
 $ sudo docker run -p 8042:8042 --rm jodogne/atomit
 ```
@@ -57,7 +57,7 @@ The Web interface and [REST API](RestApi.md) are then accessible on http://local
 
 Passing additional command-line options (e.g. to make Atom-IT verbose) can be done as follows (note the `/etc/atomit/atomit.json` option that is required for the server to find its configuration file):
 
-```
+```bash
 $ sudo docker run -p 8042:8042 --rm jodogne/atomit /etc/atomit/atomit.json --verbose
 ```
 
@@ -65,13 +65,13 @@ $ sudo docker run -p 8042:8042 --rm jodogne/atomit /etc/atomit/atomit.json --ver
 
 You can generate a custom configuration file for the Atom-IT server as follows. First, retrieve the default [configuration file](Configuration.md):
 
-```
+```bash
 $ sudo docker run --rm --entrypoint=cat jodogne/atomit /etc/atomit/atomit.json > /tmp/atomit.json
 ```
 
 Then, edit the just-generated file `/tmp/atomit.json` and restart Atom-IT with your updated configuration:
 
-```
+```bash
 $ sudo docker run -p 8042:8042 --rm -v /tmp/atomit.json:/etc/atomit/atomit.json:ro jodogne/atomit
 ```
 
@@ -79,7 +79,7 @@ $ sudo docker run -p 8042:8042 --rm -v /tmp/atomit.json:/etc/atomit/atomit.json:
 
 The filesystem of Docker containers is volatile (its content is deleted once the container stops). You can make the Atom-IT database persistent by defining a SQLite database in the `/var/lib/atomit/db` folder of the container, and mapping this folder somewhere in the filesystem of your Linux host, e.g.:
 
-```
+```bash
 $ cat << EOF > /tmp/atomit.json
 {
   "AutoTimeSeries" : {

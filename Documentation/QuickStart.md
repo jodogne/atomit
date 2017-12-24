@@ -45,7 +45,7 @@ floating-point number in the [0..100] range using
 through the [REST API](RestApi.md) of the Atom-IT server using the
 standard [cURL](https://en.wikipedia.org/wiki/CURL) command-line tool:
 
-```
+```bash
 $ perl -le 'print rand(100)' | \
   curl -X POST -u atomit:atomit http://localhost:8042/series/random -d @-
 ```
@@ -67,7 +67,7 @@ tool](https://en.wikipedia.org/wiki/Xargs), it is possible to store
 several random numbers to the time series in just one command
 line. Let's add 99 random numbers to the end of the time series:
 
-```
+```bash
 $ perl -le 'print rand(100) for(1..99)' | \
   xargs -n1 curl -X POST -u atomit:atomit http://localhost:8042/series/random -d
 ```

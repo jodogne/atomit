@@ -23,7 +23,7 @@ public IP address (e.g. running on a
 [VPS server](https://en.wikipedia.org/wiki/Virtual_private_server)).
 Let's consider the following [configuration file](Configuration.md):
 
-```
+```javascript
 {
     "TimeSeries" : {
         "proximus" : { }   // Use the default memory backend
@@ -83,7 +83,7 @@ As shown in the log, the body of the HTTP POST requests issued by the
 Proximus MyThings Stream consists of a
 [XML string](https://en.wikipedia.org/wiki/XML) similar to:
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <DevEUI_uplink xmlns="http://uri.actility.com/lora">
   <Time>2017-12-05T14:03:52.725+01:00</Time>
@@ -134,7 +134,7 @@ which can be used to apply a transcoding script to each message added
 to some time series, storing the resulting message into another time
 series. Here is a sample Lua script that will extract the actual data:
 
-```
+```lua
 function Convert(timestamp, metadata, rawValue)
   local xml = ParseXml(rawValue, true)
   local payload = ParseHexadecimal(xml['payload_hex'])
@@ -155,7 +155,7 @@ Final configuration
 Once saved as file `Proximus.lua`, the Lua parser above can be
 loaded into the Atom-IT server using the following configuration:
 
-```
+```javascript
 {
     "TimeSeries" : {
         "proximus" : { },
@@ -207,6 +207,6 @@ One can easily check that the
 returned by the Atom-IT server corresponds to the original `0xf900`
 content of the `payload_hex` field in the Proximus MyThings Stream:
 
-```
+```bash
 $ echo -n '+QA=' | base64 -d | hexdump -C
 ```

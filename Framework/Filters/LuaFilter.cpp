@@ -177,7 +177,7 @@ namespace AtomIT
       {
         if (timeSeries_.empty())
         {
-          LOG(ERROR) << "No default output time series was configured for Lua script";
+          LOG(ERROR) << "No default \"Output\" time series was configured for the Lua filter";
           throw Orthanc::OrthancException(Orthanc::ErrorCode_BadFileFormat);
         }
         else
@@ -239,16 +239,25 @@ namespace AtomIT
       PushString(original.GetValue());
       ExecuteInternal(1);
 
-      MessageVisitor visitor(original, defaultTimeSeries);
-      if (ITableVisitor::Apply(GetState(), visitor, 1))
+      if (lua_isnil(GetState(), 1))
       {
-        outputs_[visitor.GetTimeSeries()] = visitor.GetMessage();
+        // The message must be discarded
+        LOG(INFO) << "The Lua filter has skipped one input message";
         success_ = true;
       }
       else
       {
-        ArrayVisitor visitor(outputs_, original, defaultTimeSeries);
-        success_ = ITableVisitor::Apply(GetState(), visitor, 1);
+        MessageVisitor visitor(original, defaultTimeSeries);
+        if (ITableVisitor::Apply(GetState(), visitor, 1))
+        {
+          outputs_[visitor.GetTimeSeries()] = visitor.GetMessage();
+          success_ = true;
+        }
+        else
+        {
+          ArrayVisitor visitor(outputs_, original, defaultTimeSeries);
+          success_ = ITableVisitor::Apply(GetState(), visitor, 1);
+        }
       }
     }
 

@@ -21,7 +21,7 @@ public IP address (e.g. running on a
 [VPS server](https://en.wikipedia.org/wiki/Virtual_private_server)).
 Let's consider the following [configuration file](Configuration.md):
 
-```
+```javascript
 {
     "TimeSeries" : {
         "sigfox" : { }   // Use the default memory backend
@@ -68,15 +68,15 @@ A few explanations:
    `hello` password, here is a command-line to generate the proper
    value for the "Authorization" HTTP header under Linux:
    
-   ```
-   # echo -n 'jodogne:hello' | base64
+   ```bash
+   $ echo -n 'jodogne:hello' | base64
    ```
    
  * The body of the HTTP callback is set to a
    [JSON](https://en.wikipedia.org/wiki/JSON) content, with the following
    pattern (that can obviously be adapted to reflect your needs):
    
-   ```
+   ```javascript
    {
      "id":"{device}",
      "time":"{time}",
@@ -128,7 +128,7 @@ hexadecimal-encoded string stored in the `data` field of this JSON
 payload. Original data (in our case, the `Hellp` string) can be
 retrieved as follows:
 
-```
+```bash
 $ echo -n '48656c6c70' | xxd -r -p
 Hellp
 ```
@@ -140,7 +140,7 @@ which can be used to apply a transcoding script to each message added
 to some time series, storing the resulting message into another time
 series. Here is a sample Lua script that will extract the actual data:
 
-```
+```lua
 function Convert(timestamp, metadata, rawValue)
   local json = ParseJson(rawValue)
   local payload = ParseHexadecimal(json['data'])
@@ -161,7 +161,7 @@ Final configuration
 Once saved as file `Sigfox.lua`, the Lua parser above can be
 loaded into the Atom-IT server using the following configuration:
 
-```
+```javascript
 {
     "TimeSeries" : {
         "sigfox" : { },

@@ -45,7 +45,7 @@ Once the access keys are retrieved, the following
 of The Things Network, and will store the received events into a time
 series called `source`:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "source" : { }   // Use the default memory backend
@@ -109,7 +109,7 @@ which can be used to apply a transcoding script to each message added
 to some time series, storing the resulting message into another time
 series. Here is a sample Lua script that will extract the actual data:
 
-```
+```lua
 function Convert(timestamp, metadata, rawValue)
   -- Decode the JSON string as a Lua table structure
   local value = ParseJson(rawValue)
@@ -132,7 +132,7 @@ end
 Once saved as file `Configuration.lua`, this Lua script can be loaded
 into the Atom-IT server using the following configuration:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "source" : {

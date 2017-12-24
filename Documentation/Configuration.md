@@ -11,8 +11,8 @@ file**. The configuration file is written according to the
 configuration is written to a file (say, `Configuration.json`), the
 Atom-IT can be started as follows:
 
-```
-# ./AtomIT --verbose Configuration.json
+```bash
+$ ./AtomIT --verbose Configuration.json
 ```
 
 The `--verbose` argument provides debugging information, and can be
@@ -20,8 +20,8 @@ safely removed in production environments. You can find all the
 available command-line arguments of the Atom-IT server by adding the
 `--help` argument:
 
-```
-# ./AtomIT --help
+```bash
+$ ./AtomIT --help
 ```
 
 This section reviews the 3 parts
@@ -45,7 +45,7 @@ configuration of each time series.
 
 The most basic time series definition is the following:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "hello" : {}
@@ -57,7 +57,7 @@ This definition will create a time series identified with the name
 `hello` using the **default memory backend**. The use of the memory
 backend can be made explicit as follows:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "hello" : {
@@ -69,7 +69,7 @@ backend can be made explicit as follows:
 
 Multiple time series can of course be created within the Atom-IT server:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "hello" : { },
@@ -85,7 +85,7 @@ Each time series can be assigned with a timestamp assignment policy.
 This policy tells the Atom-IT server how to assign the timestamps to
 messages appended without an explicit timestamp:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "hello" : {
@@ -117,7 +117,7 @@ possible values are as follows:
 
 It is possible to **assign a quota** separately to each time series:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "hello" : {
@@ -148,7 +148,7 @@ server, and increases the available storage by storing data on the
 disk instead of in RAM. You just need to specify the path to the
 SQLite database:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "hello" : {
@@ -172,7 +172,7 @@ backends can be used simultaneously. For instance, the
 basic concepts could be defined using the following configuration
 file:
 
-```
+```javascript
 {
   "TimeSeries" : {
     "time-series-1" : { },  // Default memory backend
@@ -209,7 +209,7 @@ create new time series using the default memory backend, applying a
 quota of maximum 100 messages, and using the nanoseconds-resolution
 clock:
 
-```
+```javascript
 {
   "AutoTimeSeries" : {
     "Backend" : "Memory",
@@ -221,7 +221,7 @@ clock:
 
 Obviously, you can use a SQLite database as well:
 
-```
+```javascript
 {
   "AutoTimeSeries" : {
     "Backend" : "SQLite",
@@ -243,7 +243,7 @@ The construction of the filters consists in listing them to a
 `Filters` member, as depicted in the following sample configuration
 file:
 
-```
+```javascript
 {
   "AutoTimeSeries" : { },
   "Filters" : [
@@ -282,7 +282,7 @@ http://localhost:8042/, but only from the localhost. This default
 behavior can be fine-tuned with the following set of parameters in the
 JSON configuration file:
 
-```
+```javascript
 {
   "HttpServerEnabled" : true,       // Disable the HTTP server
   "HttpPort" : 8042,                // Set the HTTP port number
