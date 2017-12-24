@@ -56,7 +56,7 @@ available in the following days.
    * [Basic concepts](Documentation/Concepts.md)
    * [Configuration](Documentation/Configuration.md)
    * [Available filters](Documentation/Filters.md)
-     * [Lua scripting](Documentation/Lua.md)
+   * [Lua scripting](Documentation/Lua.md)
    * [REST API](Documentation/RestApi.md)
  * Samples of IoT workflow:
    * [Connecting to Proximus MyThings](Documentation/SampleProximusMyThings.md)
