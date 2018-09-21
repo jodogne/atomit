@@ -225,7 +225,7 @@ namespace AtomIT
         throw Orthanc::OrthancException(Orthanc::ErrorCode_CannotWriteFile);
       }
 
-      isEmpty_ = (stream_.tellp() == 0);
+      isEmpty_ = (stream_.tellp() == std::streampos(0));
     }
 
 

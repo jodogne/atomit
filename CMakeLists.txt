@@ -9,12 +9,20 @@ add_definitions(
   -DATOMIT_VERSION="mainline"
   )
 
-set(ORTHANC_FRAMEWORK_VERSION "1.3.2")
+set(ORTHANC_FRAMEWORK_VERSION "1.4.2")
 set(ORTHANC_FRAMEWORK_SOURCE "web")
 
 set(ALLOW_DOWNLOADS OFF CACHE BOOL "Allow CMake to download packages")
 set(USE_SYSTEM_PAHO ON CACHE BOOL "Use the system version of Paho MQTT (C library)")
-set(ENABLE_IMST_GATEWAY ON CACHE BOOL "Enable support for Raspberry Pi and IMST iC880A")
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(ENABLE_IMST_GATEWAY_DEFAULT ON)
+else()
+  set(ENABLE_IMST_GATEWAY_DEFAULT OFF)
+endif()
+  
+set(ENABLE_IMST_GATEWAY ${ENABLE_IMST_GATEWAY_DEFAULT} CACHE BOOL
+  "Enable support for Raspberry Pi and IMST iC880A")
 
 
 #####################################################################
@@ -35,7 +43,15 @@ set(ENABLE_WEB_CLIENT ON)
 set(ENABLE_WEB_SERVER ON)
 set(HAS_EMBEDDED_RESOURCES ON)
 
+set(ENABLE_MODULE_IMAGES OFF)
+set(ENABLE_MODULE_JOBS OFF)
+#set(ENABLE_MODULE_DICOM OFF)  # Necessary for LuaFunctionCall
+
 include(${ORTHANC_ROOT}/Resources/CMake/OrthancFrameworkConfiguration.cmake)
+
+add_definitions(
+  -DORTHANC_ENABLE_LOGGING_PLUGIN=0
+  )
 
 
 #####################################################################

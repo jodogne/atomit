@@ -41,6 +41,17 @@ if (STATIC_BUILD OR NOT USE_SYSTEM_PAHO)
     ${PAHO_SOURCES_DIR}/src
     )
 
+  if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    add_definitions(-D_WINDOWS)
+    if (CMAKE_SIZEOF_VOID_P EQUAL "4")
+      add_definitions(-DWIN32)
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL "8")
+      add_definitions(-DWIN64)
+    else()
+      message(FATAL_ERROR "Unknown architecture")
+    endif()
+  endif()
+    
 else()
   # in "paho-mqtt3cs", "c" means "MQTTClient" (not async) and "s"
   # means "with SSL support"
