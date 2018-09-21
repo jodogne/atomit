@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+project(AtomIT)
+
 
 #####################################################################
 ## Build parameters of the Atom-IT server
