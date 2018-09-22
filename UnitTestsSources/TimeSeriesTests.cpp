@@ -267,8 +267,8 @@ TEST_P(BackendTest, CreateTimeSeries)
   ASSERT_EQ(1u, series.size());
   ASSERT_TRUE(series.find("hello") != series.end());
 
-  ASSERT_EQ(0llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(0u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
   ASSERT_THROW(GetLength("world"), Orthanc::OrthancException);
   ASSERT_THROW(GetSize("world"), Orthanc::OrthancException);
@@ -279,10 +279,10 @@ TEST_P(BackendTest, CreateTimeSeries)
   ASSERT_TRUE(series.find("hello") != series.end());
   ASSERT_TRUE(series.find("world") != series.end());
 
-  ASSERT_EQ(0llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
-  ASSERT_EQ(0llu, GetLength("world"));
-  ASSERT_EQ(0llu, GetSize("world"));
+  ASSERT_EQ(0u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
+  ASSERT_EQ(0u, GetLength("world"));
+  ASSERT_EQ(0u, GetSize("world"));
 
   ASSERT_THROW(GetManager().CreateTimeSeries("world", AtomIT::TimestampType_Sequence),
                Orthanc::OrthancException);
@@ -293,7 +293,7 @@ TEST_P(BackendTest, CreateTimeSeries)
   ASSERT_EQ(1u, series.size());
   ASSERT_TRUE(series.find("hello") != series.end());
 
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_THROW(GetLength("world"), Orthanc::OrthancException);
 
   GetManager().DeleteTimeSeries("hello");
@@ -307,8 +307,8 @@ TEST_P(BackendTest, CreateTimeSeries)
 TEST_P(BackendTest, SimpleWriter)
 {
   GetManager().CreateTimeSeries("hello", AtomIT::TimestampType_Sequence);
-  ASSERT_EQ(0llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(0u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
 
   int64_t t;
   std::string m, v;
@@ -520,7 +520,7 @@ TEST_P(BackendTest, LengthRecycling)
     ASSERT_EQ(10u, count);
   }
 
-  ASSERT_EQ(10llu, GetLength("hello"));
+  ASSERT_EQ(10u, GetLength("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -528,8 +528,8 @@ TEST_P(BackendTest, LengthRecycling)
     transaction.ClearContent();
   }
 
-  ASSERT_EQ(0llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(0u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 }
 
@@ -549,8 +549,8 @@ TEST_P(BackendTest, SizeRecycling)
     ASSERT_FALSE(transaction.Append(1, "", "0123456789a"));  // Too long (> 10)
   }
 
-  ASSERT_EQ(1llu, GetLength("hello"));
-  ASSERT_EQ(10llu, GetSize("hello"));
+  ASSERT_EQ(1u, GetLength("hello"));
+  ASSERT_EQ(10u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -568,8 +568,8 @@ TEST_P(BackendTest, SizeRecycling)
     ASSERT_TRUE(transaction.Append(1, "", "01234"));
   }
 
-  ASSERT_EQ(1llu, GetLength("hello"));
-  ASSERT_EQ(5llu, GetSize("hello"));
+  ASSERT_EQ(1u, GetLength("hello"));
+  ASSERT_EQ(5u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -587,8 +587,8 @@ TEST_P(BackendTest, SizeRecycling)
     ASSERT_TRUE(transaction.Append(2, "", "56789"));
   }
 
-  ASSERT_EQ(2llu, GetLength("hello"));
-  ASSERT_EQ(10llu, GetSize("hello"));
+  ASSERT_EQ(2u, GetLength("hello"));
+  ASSERT_EQ(10u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -606,8 +606,8 @@ TEST_P(BackendTest, SizeRecycling)
     ASSERT_TRUE(transaction.Append(3, "", "012345"));
   }
 
-  ASSERT_EQ(1llu, GetLength("hello"));
-  ASSERT_EQ(6llu, GetSize("hello"));
+  ASSERT_EQ(1u, GetLength("hello"));
+  ASSERT_EQ(6u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -636,8 +636,8 @@ TEST_P(BackendTest, DeleteRange)
     ASSERT_TRUE(transaction.Append(i, "", ""));
   }
 
-  ASSERT_EQ(10llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(10u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -648,8 +648,8 @@ TEST_P(BackendTest, DeleteRange)
     transaction.DeleteRange(100, -20); // No effect
   }
 
-  ASSERT_EQ(6llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(6u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -671,8 +671,8 @@ TEST_P(BackendTest, DeleteRange)
     transaction.DeleteRange(9, 20);
   }
 
-  ASSERT_EQ(3llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(3u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -691,8 +691,8 @@ TEST_P(BackendTest, DeleteRange)
     transaction.DeleteRange(2, 2);    // No effect
   }
 
-  ASSERT_EQ(1llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(1u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {
@@ -708,8 +708,8 @@ TEST_P(BackendTest, DeleteRange)
     transaction.DeleteRange(2, 3);
   }
 
-  ASSERT_EQ(0llu, GetLength("hello"));
-  ASSERT_EQ(0llu, GetSize("hello"));
+  ASSERT_EQ(0u, GetLength("hello"));
+  ASSERT_EQ(0u, GetSize("hello"));
   ASSERT_TRUE(CheckStatistics("hello"));
 
   {

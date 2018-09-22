@@ -242,7 +242,8 @@ namespace AtomIT
     Json::Value result = Json::objectValue;
     result["name"] = name;
     result["length"] = static_cast<unsigned int>(length);
-    result["sizeMB"] = static_cast<unsigned int>(boost::math::round(size / (1024llu * 1024llu)));
+    result["sizeMB"] = static_cast<unsigned int>
+      (boost::math::round(size / static_cast<uint64_t>(1024 * 1024)));
     result["size"] = boost::lexical_cast<std::string>(size);
 
     call.GetOutput().AnswerJson(result);
